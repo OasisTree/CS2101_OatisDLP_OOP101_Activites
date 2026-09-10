@@ -166,6 +166,7 @@ public class Canteen {
       System.out.println();
       System.out.print("Do you want to order again? (Y/N): ");
       willOrderAgain = s.next().charAt(0);
+      System.out.println();
     } while (willOrderAgain != 'Y' && willOrderAgain != 'N');
 
     return willOrderAgain;
