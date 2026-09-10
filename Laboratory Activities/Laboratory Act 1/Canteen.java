@@ -26,12 +26,15 @@ public class Canteen {
 
   // displays the available items
   static void displayMenu() {
-    System.out.println("===== M E N U =====");
-    System.out.println("1. Burger       - $80.00");
-    System.out.println("2. Pizza        - $120.00");
-    System.out.println("3. Pasta        - $100.00");
-    System.out.println("4. Sandwich     - $70.00");
-    System.out.println("5. Milk Tea     - $90.00");
+    System.out.println("=====   M E N U   =====");
+    for (int i = 0; i < itemNames.length; i++) {
+      System.out.printf(
+        "%d. %-12s - $%.2f%n",
+        i + 1,
+        itemNames[i],
+        itemPrices[i]
+      );
+    }
     System.out.println();
   }
 
@@ -163,7 +166,6 @@ public class Canteen {
       System.out.println();
       System.out.print("Do you want to order again? (Y/N): ");
       willOrderAgain = s.next().charAt(0);
-      System.out.println();
     } while (willOrderAgain != 'Y' && willOrderAgain != 'N');
 
     return willOrderAgain;
