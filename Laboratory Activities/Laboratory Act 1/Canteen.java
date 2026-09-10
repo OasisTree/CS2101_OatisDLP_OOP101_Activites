@@ -2,9 +2,11 @@ import java.util.Scanner;
 
 public class Canteen {
 
+  // handles user input
   static Scanner s = new Scanner(System.in);
   static char studentInput = ' ';
 
+  // stores the available items
   static String[] itemNames = {
     "Burger",
     "Pizza",
@@ -12,13 +14,17 @@ public class Canteen {
     "Sandwich",
     "Milk Tea",
   };
+
+  // stores the price of each item
   static float[] itemPrices = { 80, 120, 100, 70, 90 };
 
+  // keeps track of the order totals
   static int totalItemsCount = 0;
   static float totalBeforeDiscount = 0f;
   static float totalDiscountAmt = 0f;
   static float totalFinalAmount = 0f;
 
+  // displays the available items
   static void displayMenu() {
     System.out.println("===== M E N U =====");
     System.out.println("1. Burger       - $80.00");
@@ -29,6 +35,7 @@ public class Canteen {
     System.out.println();
   }
 
+  // gets the order details from the user
   static String[] takeOrder() {
     System.out.print("Enter item number: ");
     int itemNumber = s.nextInt();
@@ -38,6 +45,7 @@ public class Canteen {
     int quantity = s.nextInt();
     boolean isError2 = inputCheckerQty(quantity);
 
+    // checks for invalid item or quantity
     if (isError1 || isError2) {
       System.out.println(displayErrorMessage(isError1, isError2, false));
       return new String[] { "error" };
@@ -49,6 +57,7 @@ public class Canteen {
 
     System.out.println();
 
+    // checks the student input
     if (isError3) {
       System.out.println(displayErrorMessage(false, false, isError3));
       return new String[] { "error" };
@@ -61,18 +70,22 @@ public class Canteen {
     };
   }
 
+  // checks if the item number is valid
   static boolean inputCheckerItem(int itemNumber) {
     return (itemNumber < 1 || itemNumber > itemNames.length);
   }
 
+  // checks if the quantity is within the allowed range
   static boolean inputCheckerQty(int quantity) {
     return (quantity < 1 || quantity > 10);
   }
 
+  // checks if the student input is valid
   static boolean inputCheckerStudent(char studentInput) {
     return !String.valueOf(studentInput).matches("[YN]");
   }
 
+  // returns the appropriate error message
   static String displayErrorMessage(
     boolean isError1,
     boolean isError2,
@@ -97,6 +110,7 @@ public class Canteen {
     }
   }
 
+  // calculates the discount and order total
   static void processOrder(String[] orderDetails) {
     int itemNumber = Integer.parseInt(orderDetails[0]);
     int quantity = Integer.parseInt(orderDetails[1]);
@@ -105,6 +119,7 @@ public class Canteen {
     float subtotal = itemPrices[itemNumber - 1] * quantity;
     float discount = 0f;
 
+    // applies the appropriate discount
     if (studentInput == 'Y') {
       if (subtotal >= 500) {
         discount = subtotal * .15f;
@@ -123,12 +138,14 @@ public class Canteen {
     System.out.printf("Discount: $%.2f\n", discount);
     System.out.printf("Order total: $%.2f\n", total);
 
+    // updates the overall order totals
     totalItemsCount += quantity;
     totalBeforeDiscount += subtotal;
     totalDiscountAmt += discount;
     totalFinalAmount += total;
   }
 
+  // displays the totals after ordering
   static void displayOrderSummary() {
     System.out.println("===== ORDER SUMMARY =====");
     System.out.printf("Total items: %d\n", totalItemsCount);
@@ -138,14 +155,17 @@ public class Canteen {
     System.out.println("Thank you for ordering!");
   }
 
+  // asks if the user wants another order
   static char askOrderAgain() {
     char willOrderAgain = ' ';
+
     do {
       System.out.println();
       System.out.print("Do you want to order again? (Y/N): ");
       willOrderAgain = s.next().charAt(0);
       System.out.println();
     } while (willOrderAgain != 'Y' && willOrderAgain != 'N');
+
     return willOrderAgain;
   }
 
@@ -154,9 +174,12 @@ public class Canteen {
 
     while (true) {
       String[] orderResult = takeOrder();
+
+      // processes the order if the input is valid
       if (orderResult.length == 3) {
         processOrder(orderResult);
       }
+
       char willOrderAgain = askOrderAgain();
 
       if (willOrderAgain == 'Y') {
